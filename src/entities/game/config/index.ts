@@ -2,10 +2,10 @@ import {randomNumber} from "@src/shared/lib/randomNumber";
 import {TColor, TFigure} from "../model";
 
 export const LOCAL_STORAGE_KEYS = {
-	CELLS: "cells",
-	FIGURES: "figures",
-	SCORE: "score",
-	BEST_SCORE: "best_score"
+	CELLS: "block__blast_cells",
+	FIGURES: "block_blast_figures",
+	SCORE: "block_blast_score",
+	BEST_SCORE: "block_blast_best_score"
 };
 
 export const MOBILE_UP_Y = 70;
