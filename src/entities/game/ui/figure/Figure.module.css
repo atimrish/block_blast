@@ -1,0 +1,21 @@
+.grid {
+    display: grid;
+    gap: 4px;
+    will-change: transform;
+    width: max-content;
+    cursor: pointer;
+    transition-property: transform, opacity;
+    transition-duration: 50ms;
+    transition-timing-function: ease;
+}
+
+.grid > * {
+    visibility: hidden;
+    width: var(--cell-width);
+    height: var(--cell-width);
+    border-radius: 5px;
+}
+
+.grid > *[data-filled] {
+    visibility: visible;
+}
