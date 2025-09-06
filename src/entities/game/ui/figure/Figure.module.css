@@ -1,12 +1,21 @@
+.main_block {
+    will-change: transform, opacity;
+    transition-property: transform, opacity;
+    transition-duration: 50ms;
+    transition-timing-function: ease;
+}
+
 .grid {
     display: grid;
     gap: 4px;
     will-change: transform;
     width: max-content;
     cursor: pointer;
-    transition-property: transform, opacity;
+    transition-property: scale;
     transition-duration: 50ms;
     transition-timing-function: ease;
+    will-change: scale;
+    scale: 0.7;
 }
 
 .grid > * {

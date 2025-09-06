@@ -3,6 +3,7 @@ import BellsAudio from "@src/shared/ui/assets/audio/bells.mp3";
 
 export class AudioService {
 	audioContext: AudioContext | null = null;
+	muted: boolean = false;
 
 	bubblePopArrayBuffer: ArrayBuffer | null = null;
 	bubblePopAudioBuffer: AudioBuffer | null = null;
@@ -25,8 +26,12 @@ export class AudioService {
 	}
 
 	async playBubblePop() {
+		if (this.muted) {
+			return;
+		}
+
 		if (!this.audioContext) {
-			this.audioContext = new AudioContext();
+			this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
 		}
 
 		if (this.bubblePopArrayBuffer) {
@@ -39,8 +44,12 @@ export class AudioService {
 	}
 
 	async playBells() {
+		if (this.muted) {
+			return;
+		}
+
 		if (!this.audioContext) {
-			this.audioContext = new AudioContext();
+			this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
 		}
 
 		if (this.bellsArrayBuffer) {
@@ -53,11 +62,6 @@ export class AudioService {
 	}
 
 	async _playSource(audioContext: AudioContext, buffer: AudioBuffer) {
-
-        if (audioContext.state === 'suspended') {
-            await audioContext.resume()
-        }
-
 		const source = audioContext.createBufferSource();
 		source.buffer = buffer;
 		source.connect(audioContext.destination);

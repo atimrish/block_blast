@@ -19,6 +19,7 @@ export const Figure = (p: FigureProps) => {
 	const {cells, setCells, figures, setFigures, setFilled, setScore, audioService} = useGameContext();
 
 	const blockRef = useRef<HTMLDivElement>(null);
+	const figureRef = useRef<HTMLDivElement>(null);
 	const touchStartCoordsRef = useRef<{x: number; y: number}>({x: 0, y: 0});
 	const mountTouchStartCoordsRef = useRef<{x: number; y: number}>({x: 0, y: 0});
 
@@ -116,9 +117,15 @@ export const Figure = (p: FigureProps) => {
 					}, 50);
 				} else {
 					blockRef.current.style.transform = "translate(0px, 0px)";
+					if (figureRef.current) {
+						figureRef.current.style.scale = "0.7";
+					}
 				}
 			} else {
 				blockRef.current.style.transform = "translate(0px, 0px)";
+				if (figureRef.current) {
+					figureRef.current.style.scale = "0.7";
+				}
 			}
 
 			blockRef.current.style.opacity = "1";
@@ -149,6 +156,10 @@ export const Figure = (p: FigureProps) => {
 	const onMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
 		touchStartCoordsRef.current.x = e.clientX;
 		touchStartCoordsRef.current.y = e.clientY;
+
+		if (figureRef.current) {
+			figureRef.current.style.scale = "1";
+		}
 
 		document.body.addEventListener("mousemove", mouseMoveHandler);
 
@@ -183,6 +194,14 @@ export const Figure = (p: FigureProps) => {
 		touchStartCoordsRef.current.x = e.changedTouches[0].clientX;
 		touchStartCoordsRef.current.y = e.changedTouches[0].clientY;
 
+		if (figureRef.current) {
+			figureRef.current.style.scale = "1";
+		}
+
+		if (blockRef.current) {
+			blockRef.current.style.transform = `translate(0px, -${MOBILE_UP_Y}px)`
+		}
+
 		document.body.addEventListener("touchmove", touchMoveHandler);
 
 		document.body.addEventListener(
@@ -196,26 +215,28 @@ export const Figure = (p: FigureProps) => {
 	};
 
 	return (
-		<div
-			className={s.grid}
-			onMouseDown={onMouseDown}
-			onTouchStart={onTouchStart}
-			ref={blockRef}
-			style={{
-				gridTemplateColumns: `repeat(${p.figure[0].length}, var(--cell-width))`,
-				gridTemplateRows: `repeat(${p.figure.length}, var(--cell-width))`,
-			}}>
-			{p.figure.map((row, y) =>
-				row.map((filled, x) => (
-					<div
-						key={x + "" + y}
-						data-filled={filled}
-						data-x={x}
-						data-y={y}
-						style={{backgroundColor: filled}}
-					/>
-				))
-			)}
+		<div ref={blockRef} className={s.main_block}>
+			<div
+				className={s.grid}
+				onMouseDown={onMouseDown}
+				onTouchStart={onTouchStart}
+				ref={figureRef}
+				style={{
+					gridTemplateColumns: `repeat(${p.figure[0].length}, var(--cell-width))`,
+					gridTemplateRows: `repeat(${p.figure.length}, var(--cell-width))`,
+				}}>
+				{p.figure.map((row, y) =>
+					row.map((filled, x) => (
+						<div
+							key={x + "" + y}
+							data-filled={filled}
+							data-x={x}
+							data-y={y}
+							style={{backgroundColor: filled}}
+						/>
+					))
+				)}
+			</div>
 		</div>
 	);
 };

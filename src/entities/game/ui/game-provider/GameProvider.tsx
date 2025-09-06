@@ -1,5 +1,6 @@
+import {AudioService} from "@src/shared/lib/audioService";
 import {requestAnimationTimeout} from "@src/shared/lib/requestAnimationTimeout";
-import {PropsWithChildren, useEffect, useRef, useState} from "react";
+import {PropsWithChildren, useEffect, useState} from "react";
 import {LOCAL_STORAGE_KEYS} from "../../config";
 import {checkCanPlaceFigure} from "../../lib/checkCanPlaceFigure";
 import {clearColumn} from "../../lib/clearColumn";
@@ -7,7 +8,6 @@ import {clearRow} from "../../lib/clearRow";
 import {createFiguresStack} from "../../lib/createFiguresStack";
 import {getEmptyCells} from "../../lib/getEmptyCells";
 import {GameContext, TFigure, TFilled, TMarkedFigure} from "../../model";
-import {AudioService} from "@src/shared/lib/audioService";
 
 const initCells = (): TFigure => {
 	const localCells = localStorage.getItem(LOCAL_STORAGE_KEYS.CELLS);
@@ -37,6 +37,7 @@ export const GameProvider = (p: PropsWithChildren) => {
 	const [score, setScore] = useState(initScore);
 	const [gameOver, setGameOver] = useState(false);
 	const [audioService] = useState(() => new AudioService());
+	const [muted, setMuted] = useState(false);
 
 	const startNewGame = () => {
 		setCells(getEmptyCells());
@@ -91,6 +92,10 @@ export const GameProvider = (p: PropsWithChildren) => {
 		}
 	}, [score]);
 
+	useEffect(() => {
+		audioService.muted = muted;
+	}, [muted]);
+
 	return (
 		<GameContext.Provider
 			value={{
@@ -108,6 +113,8 @@ export const GameProvider = (p: PropsWithChildren) => {
 				bestScore,
 				setBestScore,
 				audioService,
+				muted,
+				setMuted,
 			}}>
 			{p.children}
 		</GameContext.Provider>

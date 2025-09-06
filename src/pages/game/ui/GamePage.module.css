@@ -1,78 +1,138 @@
 .container {
-    height: 100vh;
-    background-color: var(--black);
-    padding: 0 4vmin;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
+	height: 100vh;
+	background-color: var(--black);
+	padding: 0 4vmin;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	position: relative;
 }
 
 .score {
-    color: var(--white);
-    text-align: center;
-    font-size: 8vmin;
-    font-weight: 700;
-    margin: 0 0 2vmin 0;
+	color: var(--white);
+	text-align: center;
+	font-size: 8vmin;
+	font-weight: 700;
+	margin: 0 0 2vmin 0;
 }
 
 .best_score {
-    color: var(--white);
-    text-align: center;
-    font-size: 4vmin;
-    font-weight: 700;
-    display: flex;
-    width: 100%;
-    gap: 8px;
-    align-items: center;
-    padding: 2vmin 2vmin 0 2vmin;
+	color: var(--white);
+	text-align: center;
+	font-size: 4vmin;
+	font-weight: 700;
+	display: flex;
+
+	gap: 8px;
+	align-items: center;
 }
 
 .best_score svg {
-    width: 3vmin;
-    height: 3vmin;
-} 
-
-.modal {
-    position: absolute;
-    inset: 0;
-    background-color: rgba(254, 255, 255, 0.47);
-    backdrop-filter: blur(5px);
-    animation-delay: 500ms;
-    animation-name: fadeIn;
-    animation-duration: 1500ms;
-    animation-timing-function: ease;
-    animation-fill-mode: forwards;
-    opacity: 0;
-    display: grid;
-    place-content: center;
+	width: 4vmin;
+	height: 4vmin;
 }
 
-.modal__title {
-    font-size: 24px;
-    color: var(--black);
+.top_panel {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 2vmin 2vmin 0 2vmin;
+	width: 100%;
+}
+
+.top_panel__button {
+	background-color: var(--black);
+	width: 5vmin;
+	border: 1px solid var(--white);
+	cursor: pointer;
+	border-radius: 5px;
+	aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+}
+
+.top_panel__button svg {
+	width: 4vmin;
+	height: 4vmin;
+	stroke: var(--white);
+}
+
+.top_panel__right_block {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.modal {
+	position: absolute;
+	inset: 0;
+	background-color: rgba(254, 255, 255, 0.47);
+	backdrop-filter: blur(5px);
+	animation-delay: 2500ms;
+	animation-name: fadeIn;
+	animation-duration: 1500ms;
+	animation-timing-function: ease;
+	animation-fill-mode: forwards;
+	opacity: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 }
 
 .new_game_button {
-    color: var(--black);
-    padding: 15px;
-    border-radius: 15px;
-    border: 1px solid var(--black);
-    background-color: var(--white);
+	color: var(--black);
+	border-radius: 15px;
+	border: 1px solid var(--black);
+	background-color: var(--white);
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1;
+    width: 24vmin;
+}
+
+.new_game_button svg {
+    width: 20vmin;
+    height: 20vmin;
+}
+
+.game_over_score {
+	font-size: 16vmin;
+	font-weight: 800;
+	text-align: center;
+	margin-bottom: 15vmin;
 }
 
 @media screen and (max-width: 560px) {
-    .container {
-        width: 100vw;
-        padding: 0;
-    }
+	.container {
+		width: 100vw;
+		padding: 0;
+	}
+
+	.best_score {
+		font-size: 6vmin;
+	}
+
+	.best_score svg {
+		width: 6vmin;
+		height: 6vmin;
+	}
+
+	.top_panel__button {
+		width: 10vmin;
+	}
+
+	.top_panel__button svg {
+		width: 7vmin;
+		height: 7vmin;
+	}
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
 }

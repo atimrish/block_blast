@@ -21,26 +21,22 @@ interface IGameContext {
 	bestScore: number,
 	setBestScore: React.Dispatch<React.SetStateAction<number>>;
 
+	muted: boolean,
+	setMuted: React.Dispatch<React.SetStateAction<boolean>>;
+
 	startNewGame: () => void
 
 	audioService: AudioService
 }
 
-export const GameContext = createContext<IGameContext>({
-	cells: [],
-	setCells: () => {},
-	figures: [],
-	setFigures: () => {},
-	filled: {rows: [], columns: []},
-	setFilled: () => {},
-	score: 0,
-	setScore: () => {},
-	gameOver: false,
-	setGameOver: () => {},
-	startNewGame: () => {},
-	bestScore: 0,
-	setBestScore: () => {},
-	audioService: new AudioService()
-});
+export const GameContext = createContext<IGameContext | undefined>(undefined);
 
-export const useGameContext = () => useContext(GameContext);
+export const useGameContext = (): IGameContext => {
+	const context = useContext(GameContext)
+
+	if (context === undefined) {
+		throw new Error('context is undefined')
+	}
+
+	return context
+};
