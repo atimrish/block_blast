@@ -29,6 +29,11 @@ const initBestScore = (): number => {
 	return localBestScore ? Number(localBestScore) : 0;
 };
 
+const initMuted = (): boolean => {
+	const localMuted = localStorage.getItem(LOCAL_STORAGE_KEYS.MUTED)
+	return localMuted === "true"
+}
+
 export const GameProvider = (p: PropsWithChildren) => {
 	const [cells, setCells] = useState<TFigure>(initCells);
 	const [bestScore, setBestScore] = useState(initBestScore);
@@ -37,7 +42,7 @@ export const GameProvider = (p: PropsWithChildren) => {
 	const [score, setScore] = useState(initScore);
 	const [gameOver, setGameOver] = useState(false);
 	const [audioService] = useState(() => new AudioService());
-	const [muted, setMuted] = useState(false);
+	const [muted, setMuted] = useState(initMuted);
 
 	const startNewGame = () => {
 		setCells(getEmptyCells());
@@ -83,7 +88,8 @@ export const GameProvider = (p: PropsWithChildren) => {
 		localStorage.setItem(LOCAL_STORAGE_KEYS.FIGURES, JSON.stringify(figures));
 		localStorage.setItem(LOCAL_STORAGE_KEYS.SCORE, score.toString());
 		localStorage.setItem(LOCAL_STORAGE_KEYS.BEST_SCORE, bestScore.toString());
-	}, [cells, figures, score, bestScore]);
+		localStorage.setItem(LOCAL_STORAGE_KEYS.MUTED, String(muted));
+	}, [cells, figures, score, bestScore, muted]);
 
 	useEffect(() => {
 		//bestScore check

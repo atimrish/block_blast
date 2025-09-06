@@ -5,20 +5,21 @@ export const LOCAL_STORAGE_KEYS = {
 	CELLS: "block__blast_cells",
 	FIGURES: "block_blast_figures",
 	SCORE: "block_blast_score",
-	BEST_SCORE: "block_blast_best_score"
+	BEST_SCORE: "block_blast_best_score",
+	MUTED: "block_blast_muted",
 };
 
 export const MOBILE_UP_Y = 70;
 
 export const COLORS = [
-	"#d1c4e6",
-	"#d1c6e4",
-	"#c1b3db",
-	"#b2a0d2",
-	"#a28dc8",
-	"#937abf",
-	"#8367b6",
-	"#7454ad",
+	"#6A0572",
+	"#43AA8B",
+	"#577590",
+	"#c0d2a0",
+	"#ffd192",
+	"#ae5865",
+	"#F79D84",
+	"#FF6B6B",
 	"#6441a4",
 ] as const;
 
@@ -203,25 +204,25 @@ const FIGURE_Z_1 = (color: TColor): TFigure => [
 	[color, "", ""],
 	[color, color, color],
 	["", "", color],
-]
+];
 
 const FIGURE_Z_2 = (color: TColor): TFigure => [
 	["", "", color],
 	[color, color, color],
 	[color, "", ""],
-]
+];
 
 const FIGURE_Z_3 = (color: TColor): TFigure => [
 	[color, color, ""],
 	["", color, ""],
 	["", color, color],
-]
+];
 
 const FIGURE_Z_4 = (color: TColor): TFigure => [
 	["", color, color],
 	["", color, ""],
 	[color, color, ""],
-]
+];
 
 export const FIGURES = {
 	cross: FIGURE_CROSS,
@@ -260,7 +261,7 @@ export const FIGURES = {
 
 	long_stairs_right_top: FIGURE_LONG_STAIRS_RIGHT_TOP,
 	long_stairs_right_bottom: FIGURE_LONG_STAIRS_RIGHT_BOTTOM,
-	
+
 	t_top: FIGURE_T_TOP,
 	t_bottom: FIGURE_T_BOTTOM,
 	t_left: FIGURE_T_LEFT,

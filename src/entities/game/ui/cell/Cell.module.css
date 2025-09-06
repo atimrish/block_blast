@@ -1,7 +1,7 @@
 .cell {
     width: var(--cell-width);
     height: var(--cell-width);
-    background-color: #5d5d5d;
+    background-color: #2b2b2b;
     border-radius: 5px;
 }
 
