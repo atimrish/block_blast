@@ -62,6 +62,7 @@ export class AudioService {
 	}
 
 	async _playSource(audioContext: AudioContext, buffer: AudioBuffer) {
+		await audioContext.resume()
 		const source = audioContext.createBufferSource();
 		source.buffer = buffer;
 		source.connect(audioContext.destination);
