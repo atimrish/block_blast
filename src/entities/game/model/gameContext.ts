@@ -1,6 +1,7 @@
 import {createContext, useContext} from "react";
 import {TFigure, TFilled, TMarkedFigure} from "./types";
 import { AudioService } from "@src/shared/lib/audioService";
+import { LANGUAGES } from "../config";
 
 interface IGameContext {
 	cells: TFigure;
@@ -24,8 +25,10 @@ interface IGameContext {
 	muted: boolean,
 	setMuted: React.Dispatch<React.SetStateAction<boolean>>;
 
-	startNewGame: () => void
+	language: typeof LANGUAGES[number],
+	setLanguage: React.Dispatch<React.SetStateAction<typeof LANGUAGES[number]>>
 
+	startNewGame: () => void
 	audioService: AudioService
 }
 

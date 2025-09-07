@@ -1,15 +1,17 @@
-import {CellsBlock} from "@src/entities/game/ui/cells-block";
-import * as s from "./GamePage.module.css";
 import {useGameContext} from "@src/entities/game/model";
-import {useEffect, useRef} from "react";
+import {CellsBlock} from "@src/entities/game/ui/cells-block";
 import {animateNumber} from "@src/shared/lib/animateNumber";
 import {CrownIcon} from "@src/shared/ui/assets/icons/CrownIcon";
 import {MutedVolumeIcon} from "@src/shared/ui/assets/icons/MutedVolumeIcon";
-import {VolumeIcon} from "@src/shared/ui/assets/icons/VolumeIcon";
 import {RefreshIcon} from "@src/shared/ui/assets/icons/RefreshIcon";
+import {VolumeIcon} from "@src/shared/ui/assets/icons/VolumeIcon";
+import {useEffect, useRef} from "react";
+import * as s from "./GamePage.module.css";
+import {LANGUAGES} from "@src/entities/game/config";
+import { i18n } from "@src/entities/game/config/i18n";
 
 export const GamePage = () => {
-	const {score, gameOver, startNewGame, bestScore, muted, setMuted} = useGameContext();
+	const {score, gameOver, startNewGame, bestScore, muted, setMuted, language, setLanguage} = useGameContext();
 
 	const prevScore = useRef(score);
 	const prevBestScore = useRef(bestScore);
@@ -41,6 +43,16 @@ export const GamePage = () => {
 				</div>
 
 				<div className={s.top_panel__right_block}>
+					<select
+						className={s.top_panel__select}
+						value={language}
+						onChange={(e) => {
+							setLanguage(e.target.value as (typeof LANGUAGES)[number]);
+						}}>
+						<option value="en">🇬🇧</option>
+						<option value="ru">🇷🇺</option>
+					</select>
+
 					<button className={s.top_panel__button} onClick={() => setMuted((prev) => !prev)}>
 						{muted ? <MutedVolumeIcon /> : <VolumeIcon />}
 					</button>
@@ -63,17 +75,17 @@ export const GamePage = () => {
 
 			{gameOver && (
 				<div className={s.modal}>
-					
-						<div className={s.game_over_score}>{score}</div>
+					<h3 className={s.game_over_heading}>{i18n[language].noMoves}</h3>
+					<div className={s.game_over_score}>{score}</div>
+					<div className={s.game_over_best_score}>{i18n[language].bestScore} {bestScore}</div>
 
-						<button
-							className={s.new_game_button}
-							onClick={() => {
-								startNewGame();
-							}}>
-							<RefreshIcon />
-						</button>
-					
+					<button
+						className={s.new_game_button}
+						onClick={() => {
+							startNewGame();
+						}}>
+						<RefreshIcon />
+					</button>
 				</div>
 			)}
 		</div>

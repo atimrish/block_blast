@@ -1,7 +1,7 @@
 import {AudioService} from "@src/shared/lib/audioService";
 import {requestAnimationTimeout} from "@src/shared/lib/requestAnimationTimeout";
 import {PropsWithChildren, useEffect, useState} from "react";
-import {LOCAL_STORAGE_KEYS} from "../../config";
+import {LANGUAGES, LOCAL_STORAGE_KEYS} from "../../config";
 import {checkCanPlaceFigure} from "../../lib/checkCanPlaceFigure";
 import {clearColumn} from "../../lib/clearColumn";
 import {clearRow} from "../../lib/clearRow";
@@ -30,8 +30,13 @@ const initBestScore = (): number => {
 };
 
 const initMuted = (): boolean => {
-	const localMuted = localStorage.getItem(LOCAL_STORAGE_KEYS.MUTED)
-	return localMuted === "true"
+	const localMuted = localStorage.getItem(LOCAL_STORAGE_KEYS.MUTED);
+	return localMuted === "true";
+};
+
+const initLanguage = (): typeof LANGUAGES[number] => {
+	const localLanguage = localStorage.getItem(LOCAL_STORAGE_KEYS.LANGUAGE) as typeof LANGUAGES[number] | undefined
+	return localLanguage ?? 'ru'
 }
 
 export const GameProvider = (p: PropsWithChildren) => {
@@ -43,6 +48,7 @@ export const GameProvider = (p: PropsWithChildren) => {
 	const [gameOver, setGameOver] = useState(false);
 	const [audioService] = useState(() => new AudioService());
 	const [muted, setMuted] = useState(initMuted);
+	const [language, setLanguage] = useState<typeof LANGUAGES[number]>(initLanguage);
 
 	const startNewGame = () => {
 		setCells(getEmptyCells());
@@ -89,7 +95,8 @@ export const GameProvider = (p: PropsWithChildren) => {
 		localStorage.setItem(LOCAL_STORAGE_KEYS.SCORE, score.toString());
 		localStorage.setItem(LOCAL_STORAGE_KEYS.BEST_SCORE, bestScore.toString());
 		localStorage.setItem(LOCAL_STORAGE_KEYS.MUTED, String(muted));
-	}, [cells, figures, score, bestScore, muted]);
+		localStorage.setItem(LOCAL_STORAGE_KEYS.LANGUAGE, language)
+	}, [cells, figures, score, bestScore, muted, language]);
 
 	useEffect(() => {
 		//bestScore check
@@ -121,6 +128,8 @@ export const GameProvider = (p: PropsWithChildren) => {
 				audioService,
 				muted,
 				setMuted,
+				language,
+				setLanguage,
 			}}>
 			{p.children}
 		</GameContext.Provider>

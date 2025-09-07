@@ -1,12 +1,11 @@
 import {TFigure, useGameContext} from "@src/entities/game/model";
+import {requestAnimationTimeout} from "@src/shared/lib/requestAnimationTimeout";
 import {useEffect, useRef} from "react";
 import {MOBILE_UP_Y} from "../../config";
+import {checkCanPlaceFigureAtPoint} from "../../lib/checkCanPlaceFigureAtPoint";
 import {checkColumnAllFilled} from "../../lib/checkColumnAllFilled";
 import {checkRowAllFilled} from "../../lib/checkRowAllFilled";
 import * as s from "./Figure.module.css";
-import {requestAnimationTimeout} from "@src/shared/lib/requestAnimationTimeout";
-import {checkCanPlaceFigure} from "../../lib/checkCanPlaceFigure";
-import {checkCanPlaceFigureAtPoint} from "../../lib/checkCanPlaceFigureAtPoint";
 
 type FigureProps = {
 	id: number;
@@ -199,7 +198,7 @@ export const Figure = (p: FigureProps) => {
 		}
 
 		if (blockRef.current) {
-			blockRef.current.style.transform = `translate(0px, -${MOBILE_UP_Y}px)`
+			blockRef.current.style.transform = `translate(0px, -${MOBILE_UP_Y}px)`;
 		}
 
 		document.body.addEventListener("touchmove", touchMoveHandler);
