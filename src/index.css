@@ -15,6 +15,12 @@
 	}
 }
 
+@media screen and (max-height: 700px) {
+	:global :root {
+		--cell-width: 6vmin;
+	}
+}
+
 :global * {
 	box-sizing: border-box;
 	user-select: none;
@@ -35,5 +41,5 @@
 	place-items: center;
 	margin: 0;
 	overflow: hidden;
-	overscroll-behavior-y: contain;
+	overscroll-behavior: none;
 }

@@ -1,6 +1,11 @@
-declare module "*.css";
-declare module "*.mp3";
+import {SDK} from "@types/ysdk";
 
-declare interface Window {
-	webkitAudioContext: typeof AudioContext;
+declare global {
+	interface Window {
+		webkitAudioContext: typeof AudioContext;
+		ysdk: SDK;
+	}
+
+	declare module "*.css";
+	declare module "*.mp3";
 }

@@ -1,6 +1,6 @@
 import {TFigure, useGameContext} from "@src/entities/game/model";
 import {requestAnimationTimeout} from "@src/shared/lib/requestAnimationTimeout";
-import {useEffect, useRef} from "react";
+import {useRef} from "react";
 import {MOBILE_UP_Y} from "../../config";
 import {checkCanPlaceFigureAtPoint} from "../../lib/checkCanPlaceFigureAtPoint";
 import {checkColumnAllFilled} from "../../lib/checkColumnAllFilled";
@@ -29,14 +29,6 @@ export const Figure = (p: FigureProps) => {
 			.elementsFromPoint(eventX + firstSquareCenterX, eventY + firstSquareCenterY)
 			.find((elem) => elem.hasAttribute("data-droppable"));
 	};
-
-	useEffect(() => {
-		if (blockRef.current) {
-			const {x, y} = blockRef.current.getBoundingClientRect();
-			mountTouchStartCoordsRef.current.x = x;
-			mountTouchStartCoordsRef.current.y = y;
-		}
-	}, [figures]);
 
 	const onDropFigure = (eventX: number, eventY: number, upX: number = 0) => {
 		const elem = getTargetElement(eventX, eventY, upX);
@@ -153,6 +145,12 @@ export const Figure = (p: FigureProps) => {
 	};
 
 	const onMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+		if (blockRef.current) {
+			const mountPos = blockRef.current.getBoundingClientRect();
+			mountTouchStartCoordsRef.current.x = mountPos.x;
+			mountTouchStartCoordsRef.current.y = mountPos.y;
+		}
+
 		touchStartCoordsRef.current.x = e.clientX;
 		touchStartCoordsRef.current.y = e.clientY;
 
@@ -198,6 +196,10 @@ export const Figure = (p: FigureProps) => {
 		}
 
 		if (blockRef.current) {
+			const mountPos = blockRef.current.getBoundingClientRect();
+			mountTouchStartCoordsRef.current.x = mountPos.x;
+			mountTouchStartCoordsRef.current.y = mountPos.y;
+
 			blockRef.current.style.transform = `translate(0px, -${MOBILE_UP_Y}px)`;
 		}
 

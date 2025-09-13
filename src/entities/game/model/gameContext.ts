@@ -1,7 +1,7 @@
+import {AudioService} from "@src/shared/lib/audioService";
 import {createContext, useContext} from "react";
+import {LANGUAGES} from "../config";
 import {TFigure, TFilled, TMarkedFigure} from "./types";
-import { AudioService } from "@src/shared/lib/audioService";
-import { LANGUAGES } from "../config";
 
 interface IGameContext {
 	cells: TFigure;
@@ -19,27 +19,31 @@ interface IGameContext {
 	gameOver: boolean;
 	setGameOver: React.Dispatch<React.SetStateAction<boolean>>;
 
-	bestScore: number,
+	bestScore: number;
 	setBestScore: React.Dispatch<React.SetStateAction<number>>;
 
-	muted: boolean,
+	muted: boolean;
 	setMuted: React.Dispatch<React.SetStateAction<boolean>>;
 
-	language: typeof LANGUAGES[number],
-	setLanguage: React.Dispatch<React.SetStateAction<typeof LANGUAGES[number]>>
+	language: (typeof LANGUAGES)[number];
+	setLanguage: React.Dispatch<React.SetStateAction<(typeof LANGUAGES)[number]>>;
 
-	startNewGame: () => void
-	audioService: AudioService
+	isRewardUsed: boolean;
+	setIsRewardUsed: React.Dispatch<React.SetStateAction<boolean>>;
+
+	startNewGame: () => void;
+	clearByRewardedVideo: () => void;
+	audioService: AudioService;
 }
 
 export const GameContext = createContext<IGameContext | undefined>(undefined);
 
 export const useGameContext = (): IGameContext => {
-	const context = useContext(GameContext)
+	const context = useContext(GameContext);
 
 	if (context === undefined) {
-		throw new Error('context is undefined')
+		throw new Error("context is undefined");
 	}
 
-	return context
+	return context;
 };

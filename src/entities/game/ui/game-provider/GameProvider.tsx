@@ -1,4 +1,5 @@
 import {AudioService} from "@src/shared/lib/audioService";
+import {randomNumber} from "@src/shared/lib/randomNumber";
 import {requestAnimationTimeout} from "@src/shared/lib/requestAnimationTimeout";
 import {PropsWithChildren, useEffect, useState} from "react";
 import {LANGUAGES, LOCAL_STORAGE_KEYS} from "../../config";
@@ -34,10 +35,23 @@ const initMuted = (): boolean => {
 	return localMuted === "true";
 };
 
-const initLanguage = (): typeof LANGUAGES[number] => {
-	const localLanguage = localStorage.getItem(LOCAL_STORAGE_KEYS.LANGUAGE) as typeof LANGUAGES[number] | undefined
-	return localLanguage ?? 'ru'
-}
+const initLanguage = (): (typeof LANGUAGES)[number] => {
+	// const sdkLanguage = window.ysdk.environment.i18n.lang as (typeof LANGUAGES)[number];
+	// const localLanguage = localStorage.getItem(LOCAL_STORAGE_KEYS.LANGUAGE) as (typeof LANGUAGES)[number] | undefined;
+
+	// if (localLanguage) {
+	// 	return localLanguage;
+	// }
+
+	// return LANGUAGES.includes(sdkLanguage) ? sdkLanguage : "ru";
+
+	return 'ru'
+};
+
+const initIsRewardUsed = (): boolean => {
+	const localIsRewardUsed = localStorage.getItem(LOCAL_STORAGE_KEYS.IS_REWARD_USED);
+	return localIsRewardUsed === "true";
+};
 
 export const GameProvider = (p: PropsWithChildren) => {
 	const [cells, setCells] = useState<TFigure>(initCells);
@@ -48,13 +62,43 @@ export const GameProvider = (p: PropsWithChildren) => {
 	const [gameOver, setGameOver] = useState(false);
 	const [audioService] = useState(() => new AudioService());
 	const [muted, setMuted] = useState(initMuted);
-	const [language, setLanguage] = useState<typeof LANGUAGES[number]>(initLanguage);
+	const [language, setLanguage] = useState<(typeof LANGUAGES)[number]>(initLanguage);
+	const [isRewardUsed, setIsRewardUsed] = useState(initIsRewardUsed);
 
 	const startNewGame = () => {
 		setCells(getEmptyCells());
 		setFigures(createFiguresStack());
 		setFilled({rows: [], columns: []});
 		setScore(0), setGameOver(false);
+		setIsRewardUsed(false);
+	};
+
+	const clearByRewardedVideo = () => {
+		const randomColumnIndexes: number[] = [];
+		const randomRowIndexes: number[] = [];
+
+		while (randomColumnIndexes.length < 3) {
+			const randNum = randomNumber(0, 11);
+
+			if (!randomColumnIndexes.includes(randNum)) {
+				randomColumnIndexes.push(randNum);
+			}
+		}
+
+		while (randomRowIndexes.length < 3) {
+			const randNum = randomNumber(0, 11);
+
+			if (!randomRowIndexes.includes(randNum)) {
+				randomRowIndexes.push(randNum);
+			}
+		}
+
+		setFilled({
+			rows: randomRowIndexes,
+			columns: randomColumnIndexes,
+		});
+		setIsRewardUsed(true);
+		setGameOver(false);
 	};
 
 	useEffect(() => {
@@ -95,8 +139,8 @@ export const GameProvider = (p: PropsWithChildren) => {
 		localStorage.setItem(LOCAL_STORAGE_KEYS.SCORE, score.toString());
 		localStorage.setItem(LOCAL_STORAGE_KEYS.BEST_SCORE, bestScore.toString());
 		localStorage.setItem(LOCAL_STORAGE_KEYS.MUTED, String(muted));
-		localStorage.setItem(LOCAL_STORAGE_KEYS.LANGUAGE, language)
-	}, [cells, figures, score, bestScore, muted, language]);
+		localStorage.setItem(LOCAL_STORAGE_KEYS.IS_REWARD_USED, String(isRewardUsed));
+	}, [cells, figures, score, bestScore, muted, isRewardUsed]);
 
 	useEffect(() => {
 		//bestScore check
@@ -130,6 +174,9 @@ export const GameProvider = (p: PropsWithChildren) => {
 				setMuted,
 				language,
 				setLanguage,
+				clearByRewardedVideo,
+				isRewardUsed,
+				setIsRewardUsed,
 			}}>
 			{p.children}
 		</GameContext.Provider>

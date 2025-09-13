@@ -1,3 +1,5 @@
+import {LANGUAGES, LOCAL_STORAGE_KEYS} from "@src/entities/game/config";
+import {i18n} from "@src/entities/game/config/i18n";
 import {useGameContext} from "@src/entities/game/model";
 import {CellsBlock} from "@src/entities/game/ui/cells-block";
 import {animateNumber} from "@src/shared/lib/animateNumber";
@@ -7,11 +9,21 @@ import {RefreshIcon} from "@src/shared/ui/assets/icons/RefreshIcon";
 import {VolumeIcon} from "@src/shared/ui/assets/icons/VolumeIcon";
 import {useEffect, useRef} from "react";
 import * as s from "./GamePage.module.css";
-import {LANGUAGES} from "@src/entities/game/config";
-import { i18n } from "@src/entities/game/config/i18n";
+import {VideoIcon} from "@src/shared/ui/assets/icons/VideoIcon";
 
 export const GamePage = () => {
-	const {score, gameOver, startNewGame, bestScore, muted, setMuted, language, setLanguage} = useGameContext();
+	const {
+		score,
+		gameOver,
+		startNewGame,
+		bestScore,
+		muted,
+		setMuted,
+		language,
+		setLanguage,
+		clearByRewardedVideo,
+		isRewardUsed,
+	} = useGameContext();
 
 	const prevScore = useRef(score);
 	const prevBestScore = useRef(bestScore);
@@ -47,6 +59,7 @@ export const GamePage = () => {
 						className={s.top_panel__select}
 						value={language}
 						onChange={(e) => {
+							localStorage.setItem(LOCAL_STORAGE_KEYS.LANGUAGE, e.target.value);
 							setLanguage(e.target.value as (typeof LANGUAGES)[number]);
 						}}>
 						<option value="en">🇬🇧</option>
@@ -77,15 +90,41 @@ export const GamePage = () => {
 				<div className={s.modal}>
 					<h3 className={s.game_over_heading}>{i18n[language].noMoves}</h3>
 					<div className={s.game_over_score}>{score}</div>
-					<div className={s.game_over_best_score}>{i18n[language].bestScore} {bestScore}</div>
+					<div className={s.game_over_best_score}>
+						{i18n[language].bestScore} {bestScore}
+					</div>
 
 					<button
 						className={s.new_game_button}
 						onClick={() => {
 							startNewGame();
+							// window.ysdk.adv.showFullscreenAdv();
 						}}>
 						<RefreshIcon />
 					</button>
+
+					{/* {!isRewardUsed && (
+						<button
+							className={s.rewarded_video_button}
+							onClick={() => {
+								let isRewarded = false;
+								window.ysdk.adv.showRewardedVideo({
+									callbacks: {
+										onRewarded: () => {
+											isRewarded = true;
+										},
+										onClose: () => {
+											if (isRewarded) {
+												clearByRewardedVideo();
+											}
+										},
+									},
+								});
+							}}>
+							<VideoIcon />
+							<div>{i18n[language].clearCells}</div>
+						</button>
+					)} */}
 				</div>
 			)}
 		</div>
