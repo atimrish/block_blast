@@ -72,10 +72,17 @@
 	-moz-appearance: none;
 	appearance: none;
 	text-align: center;
+	text-align-last: center;
 	border: 1px solid var(--white);
 	background-color: var(--black);
 	border-radius: 5px;
 	font-size: 3vmin;
+	line-height: 3vmin;
+	background-image: none;
+}
+
+.top_panel__select option {
+	text-align: center;
 }
 
 .modal {
@@ -202,6 +209,7 @@
 		width: 10vmin;
 		height: 10vmin;
 		font-size: 7vmin;
+		line-height: 7vmin;
 	}
 
 	.rewarded_video_button {

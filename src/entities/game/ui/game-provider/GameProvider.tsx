@@ -45,7 +45,7 @@ const initLanguage = (): (typeof LANGUAGES)[number] => {
 
 	// return LANGUAGES.includes(sdkLanguage) ? sdkLanguage : "ru";
 
-	return 'ru'
+	return "ru";
 };
 
 const initIsRewardUsed = (): boolean => {
