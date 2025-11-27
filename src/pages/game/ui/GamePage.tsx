@@ -9,21 +9,10 @@ import {RefreshIcon} from "@src/shared/ui/assets/icons/RefreshIcon";
 import {VolumeIcon} from "@src/shared/ui/assets/icons/VolumeIcon";
 import {useEffect, useRef} from "react";
 import * as s from "./GamePage.module.css";
-import {VideoIcon} from "@src/shared/ui/assets/icons/VideoIcon";
 
 export const GamePage = () => {
-	const {
-		score,
-		gameOver,
-		startNewGame,
-		bestScore,
-		muted,
-		setMuted,
-		language,
-		setLanguage,
-		clearByRewardedVideo,
-		isRewardUsed,
-	} = useGameContext();
+	const {score, gameOver, startNewGame, bestScore, muted, setMuted, language, setLanguage, clearByRewardedVideo} =
+		useGameContext();
 
 	const prevScore = useRef(score);
 	const prevBestScore = useRef(bestScore);
@@ -98,33 +87,9 @@ export const GamePage = () => {
 						className={s.new_game_button}
 						onClick={() => {
 							startNewGame();
-							// window.ysdk.adv.showFullscreenAdv();
 						}}>
 						<RefreshIcon />
 					</button>
-
-					{/* {!isRewardUsed && (
-						<button
-							className={s.rewarded_video_button}
-							onClick={() => {
-								let isRewarded = false;
-								window.ysdk.adv.showRewardedVideo({
-									callbacks: {
-										onRewarded: () => {
-											isRewarded = true;
-										},
-										onClose: () => {
-											if (isRewarded) {
-												clearByRewardedVideo();
-											}
-										},
-									},
-								});
-							}}>
-							<VideoIcon />
-							<div>{i18n[language].clearCells}</div>
-						</button>
-					)} */}
 				</div>
 			)}
 		</div>

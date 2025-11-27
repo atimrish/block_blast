@@ -2,11 +2,11 @@ export const i18n = {
     ru: {
         noMoves: 'Нет возможных ходов',
         bestScore: 'Рекорд',
-        clearCells: 'Очистить поле'
+        clearCells: 'Очистить несколько рядов'
     },
     en: {
         noMoves: 'No possible moves',
         bestScore: 'Best',
-        clearCells: 'Clear tiles'
+        clearCells: 'Clear some rows'
     }
 }

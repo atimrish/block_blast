@@ -7,8 +7,7 @@ export const LOCAL_STORAGE_KEYS = {
 	SCORE: "block_blast_score",
 	BEST_SCORE: "block_blast_best_score",
 	MUTED: "block_blast_muted",
-	LANGUAGE: "block_blast_language",
-	IS_REWARD_USED: "block_blast_is_reward_used"
+	LANGUAGE: "block_blast_language"
 };
 
 export const LANGUAGES = ['en', 'ru'] as const

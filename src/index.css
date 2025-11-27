@@ -9,15 +9,21 @@
 	--cell-width: 4vmin;
 }
 
-@media screen and (max-width: 560px) {
+@media screen and (max-width: 650px) {
 	:global :root {
 		--cell-width: 7vmin;
 	}
 }
 
-@media screen and (max-height: 700px) {
+@media screen and (max-height: 700px) and (max-width: 650px) {
 	:global :root {
 		--cell-width: 6vmin;
+	}
+}
+
+@media screen and (min-height: 700px) and (max-width: 650px) {
+	:global :root {
+		--cell-width: 5vmin;
 	}
 }
 

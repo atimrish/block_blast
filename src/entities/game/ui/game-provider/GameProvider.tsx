@@ -36,21 +36,8 @@ const initMuted = (): boolean => {
 };
 
 const initLanguage = (): (typeof LANGUAGES)[number] => {
-	// const sdkLanguage = window.ysdk.environment.i18n.lang as (typeof LANGUAGES)[number];
-	// const localLanguage = localStorage.getItem(LOCAL_STORAGE_KEYS.LANGUAGE) as (typeof LANGUAGES)[number] | undefined;
-
-	// if (localLanguage) {
-	// 	return localLanguage;
-	// }
-
-	// return LANGUAGES.includes(sdkLanguage) ? sdkLanguage : "ru";
-
-	return "ru";
-};
-
-const initIsRewardUsed = (): boolean => {
-	const localIsRewardUsed = localStorage.getItem(LOCAL_STORAGE_KEYS.IS_REWARD_USED);
-	return localIsRewardUsed === "true";
+	const localLanguage = localStorage.getItem(LOCAL_STORAGE_KEYS.LANGUAGE) as (typeof LANGUAGES)[number] | undefined;
+	return localLanguage ?? "ru";
 };
 
 export const GameProvider = (p: PropsWithChildren) => {
@@ -63,14 +50,12 @@ export const GameProvider = (p: PropsWithChildren) => {
 	const [audioService] = useState(() => new AudioService());
 	const [muted, setMuted] = useState(initMuted);
 	const [language, setLanguage] = useState<(typeof LANGUAGES)[number]>(initLanguage);
-	const [isRewardUsed, setIsRewardUsed] = useState(initIsRewardUsed);
 
 	const startNewGame = () => {
 		setCells(getEmptyCells());
 		setFigures(createFiguresStack());
 		setFilled({rows: [], columns: []});
 		setScore(0), setGameOver(false);
-		setIsRewardUsed(false);
 	};
 
 	const clearByRewardedVideo = () => {
@@ -97,7 +82,6 @@ export const GameProvider = (p: PropsWithChildren) => {
 			rows: randomRowIndexes,
 			columns: randomColumnIndexes,
 		});
-		setIsRewardUsed(true);
 		setGameOver(false);
 	};
 
@@ -139,8 +123,7 @@ export const GameProvider = (p: PropsWithChildren) => {
 		localStorage.setItem(LOCAL_STORAGE_KEYS.SCORE, score.toString());
 		localStorage.setItem(LOCAL_STORAGE_KEYS.BEST_SCORE, bestScore.toString());
 		localStorage.setItem(LOCAL_STORAGE_KEYS.MUTED, String(muted));
-		localStorage.setItem(LOCAL_STORAGE_KEYS.IS_REWARD_USED, String(isRewardUsed));
-	}, [cells, figures, score, bestScore, muted, isRewardUsed]);
+	}, [cells, figures, score, bestScore, muted]);
 
 	useEffect(() => {
 		//bestScore check
@@ -175,8 +158,6 @@ export const GameProvider = (p: PropsWithChildren) => {
 				language,
 				setLanguage,
 				clearByRewardedVideo,
-				isRewardUsed,
-				setIsRewardUsed,
 			}}>
 			{p.children}
 		</GameContext.Provider>

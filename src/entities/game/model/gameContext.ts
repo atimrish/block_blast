@@ -28,9 +28,6 @@ interface IGameContext {
 	language: (typeof LANGUAGES)[number];
 	setLanguage: React.Dispatch<React.SetStateAction<(typeof LANGUAGES)[number]>>;
 
-	isRewardUsed: boolean;
-	setIsRewardUsed: React.Dispatch<React.SetStateAction<boolean>>;
-
 	startNewGame: () => void;
 	clearByRewardedVideo: () => void;
 	audioService: AudioService;
